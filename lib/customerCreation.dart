@@ -150,7 +150,7 @@ class _customerCreationState extends State<customerCreation> {
     );
   }
 }
-_makePostRequest() async {
+/*_makePostRequest() async {
 // set up POST request arguments
   final url = Uri.parse('https://jsonplaceholder.typicode.com/posts');
   Map<String, String> headers = {"Content-type": "application/json"};
@@ -167,4 +167,4 @@ _makePostRequest() async {
   //   "userId": 1,
   //   "id": 101
   // }
-}
+}*/

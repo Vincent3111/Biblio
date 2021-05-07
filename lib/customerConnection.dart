@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:easyqrapp/user.dart';
 import 'package:qrscan/qrscan.dart';
 
-
 Future<Customer> fetchCustomer() async {
   final response = await http.get("http://10.0.2.2:4000/customer/" '$email');
 
@@ -77,7 +76,6 @@ class _customerConnectionState extends State<customerConnection> {
           child: FutureBuilder<Customer>(
             future: futureCustomer,
             builder: (context, snapshot) {
-
               if (password == snapshot.data.password) {
                 return Scaffold(
                   body: Column(
@@ -96,35 +94,34 @@ class _customerConnectionState extends State<customerConnection> {
                         ),
                       ),
                       SizedBox(height: 60.0),
-                Container(
-                height: 40.0,
-                child: Material(
-                  borderRadius: BorderRadius.circular(20.0),
-                  shadowColor: Colors.green,
-                  color: Colors.green,
-                  elevation: 7.0,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HomePage()),
-                      );
-                    },
-
-                    child: Center(
-                      child: Text(
-                        'Se connecter',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
+                      Container(
+                        height: 40.0,
+                        child: Material(
+                          borderRadius: BorderRadius.circular(20.0),
+                          shadowColor: Colors.green,
+                          color: Colors.green,
+                          elevation: 7.0,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()),
+                              );
+                            },
+                            child: Center(
+                              child: Text(
+                                'Se connecter',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-              ),
                       Container(
                         width: 356.0,
                         height: 250.0,
@@ -153,19 +150,33 @@ class _customerConnectionState extends State<customerConnection> {
                         ),
                       ),
                       SizedBox(height: 60.0),
-                      FloatingActionButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Admin(),
-                              ));
-                        },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            side: BorderSide(color: Colors.green, width: 3.0)),
-                        backgroundColor: Colors.green,
-                        child: Text("Réessayer"),
+                      Container(
+                        height: 40.0,
+                        child: Material(
+                          borderRadius: BorderRadius.circular(20.0),
+                          shadowColor: Colors.green,
+                          color: Colors.green,
+                          elevation: 7.0,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Admin()),
+                              );
+                            },
+                            child: Center(
+                              child: Text(
+                                'Réessayer',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       Container(
                         width: 356.0,
