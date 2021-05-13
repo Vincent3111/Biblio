@@ -31,7 +31,6 @@ class _GeneratePageState extends State<GeneratePage> {
               decoration: InputDecoration(
                 hintText: "Entrer le numero ID ",
               ),
-
             ),
             SizedBox(height: 20.0),
             FlatButton(
