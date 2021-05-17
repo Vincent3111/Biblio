@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:qrscan/qrscan.dart';
 import 'package:easyqrapp/livreAffichage.dart';
-
+                                                                                  // Endroit où le customer entre
 class ScanPage extends StatefulWidget {
   @override
   _ScanPageState createState() => _ScanPageState();
 }
 
-//var monlivre;
-String text = null;
 String code_barre;
 
 class _ScanPageState extends State<ScanPage> {
@@ -18,7 +15,7 @@ class _ScanPageState extends State<ScanPage> {
       appBar: AppBar(
         backgroundColor: Colors.green,
         title: Text("Saisi du code barre"),
-        centerTitle: true,
+        centerTitle: true
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
@@ -43,8 +40,7 @@ class _ScanPageState extends State<ScanPage> {
                   borderSide: BorderSide(color: Colors.green),
                 ),
               ),
-              onChanged: (text) {
-                print(text);
+              onChanged: (text) {                                                 //Utilise le champ de texte du CB pour l'envoyer dans la classe livreAffichage
                 code_barre = text;
               },
             ),
@@ -54,7 +50,7 @@ class _ScanPageState extends State<ScanPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => livreAffichage(text)),
+                  MaterialPageRoute(builder: (context) => livreAffichage(code_barre)),
                 );
               },
               shape: RoundedRectangleBorder(

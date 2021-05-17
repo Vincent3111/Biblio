@@ -4,20 +4,22 @@ import 'package:easyqrapp/historique.dart';
 import 'package:easyqrapp/scan.dart';
 import 'package:easyqrapp/user.dart';
 import 'package:flutter/material.dart';
-import 'register.dart';
+import 'package:easyqrapp/customerCreation.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  Future get post => null;
+
+                                                                                  // Le Widget est la branche mère de notre application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gestion Biblio',
       color: Colors.black,
       debugShowCheckedModeBanner: false,
-      routes: <String, WidgetBuilder>{
-        '/register': (BuildContext context) => new Register(),
+      routes: <String, WidgetBuilder>{                                            //Initialisation des classes.
+        '/register': (BuildContext context) => new CustomerCreation(post),
         '/generate': (BuildContext context) => new GeneratePage(),
         '/homepage': (BuildContext context) => new HomePage(),
         '/scan': (BuildContext context) => new ScanPage(),
@@ -28,7 +30,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatelessWidget {                                        //Premièrer page de notre application. 
+                                                                                  //Elle contient un bouton qui nous transfert à la classe User.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +90,7 @@ class MyHomePage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Admin(),
+                                  builder: (context) => User(),
                                 ));
                           },
                           backgroundColor: Colors.green,

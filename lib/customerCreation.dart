@@ -3,168 +3,125 @@ import 'dart:convert';
 import 'package:easyqrapp/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:easyqrapp/register.dart';
-import 'package:qrscan/qrscan.dart';
-
-Future<Customer> fetchCustomer() async {
-  final response = await http.post("http://10.0.2.2:4000/customer");
-  print(name);
-  print(email);
-  print(password);
-
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Customer.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load customer');
-  }
-}
-
-class Customer {
-  final int id;
-  final String name;
+                                                                                  // Création des Customers
+class Post {                                                                      //Le code est écrit, mais n'est pas fonctionnel par manque de temps. 
+  final int id;                                                                   //Il aurait fallu corriger l'erreur générée par: CREATE_POST_URL (à la ligne 117), 
+  final String name;                                                              //lorsque l'application roule
   final String email;
   final String password;
 
-  Customer(
-      {@required this.id,
-      @required this.name,
-      @required this.email,
-      @required this.password});
+  Post({this.id, this.name, this.email, this.password});
 
-  factory Customer.fromJson(Map<String, dynamic> json) {
-    return Customer(
+  factory Post.fromJson(Map json) {
+    return Post(
       id: json['id'],
       name: json['name'],
       email: json['email'],
       password: json['password'],
     );
   }
-}
 
-class customerCreation extends StatefulWidget {
-  customerCreation(name, email, password);
-
-  @override
-  _customerCreationState createState() => _customerCreationState();
-}
-
-class _customerCreationState extends State<customerCreation> {
-  @override
-  Future<Customer> futureCustomer;
-
-  @override
-  void initState() {
-    super.initState();
-    futureCustomer = fetchCustomer();
+  Map toMap() {
+    var map = new Map();
+    map["name"] = name;
+    map["email"] = email;
+    map["password"] = password;
+    return map;
   }
+}
+
+Future createPost(String url, {Map name}) async {
+  return http
+      .post("http://10.0.2.2:4000/customer")                                      //Lien pour Post un Customer
+      .then((http.Response response) {
+    final int statusCode = response.statusCode;
+
+    if (statusCode < 200 || statusCode > 400 || json == null) {
+      throw new Exception("Error while fetching data");                           //Si le lien est introuvable, une erreur s'affichera
+    }
+    return Post.fromJson(json.decode(response.body));
+  });
+}
+
+class CustomerCreation extends StatelessWidget {
+  CustomerCreation(this.post);
+  final Future post;
+
+  static final CREATE_POST_URL = 'https://jsonplaceholder.typicode.com/posts';    //Pas le bon lien. Ce lien est un endroit général pour tester un Post.
+  TextEditingController nameControler = new TextEditingController();
+  TextEditingController emailControler = new TextEditingController();
+  TextEditingController passwordControler = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
-      title: 'Fetch Data',
+      title: "Créer un compte",
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primaryColor: Colors.green,
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Connection'),
-        ),
-        body: Center(
-          child: FutureBuilder<Customer>(
-            future: futureCustomer,
-            builder: (context, snapshot) {
-              if (password == snapshot.data.password) {
-                return Scaffold(
-                  body: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(30.0),
-                        width: 300.0,
-                        child: Text(
-                          'Connection réussi',
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 32.0),
-                        ),
-                      ),
-                      SizedBox(height: 60.0),
-                      Container(
-                        height: 40.0,
-                        child: Material(
-                          borderRadius: BorderRadius.circular(20.0),
-                          shadowColor: Colors.green,
-                          color: Colors.green,
-                          elevation: 7.0,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()),
-                              );
-                            },
-                            child: Center(
-                              child: Text(
-                                'Se connecter',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 356.0,
-                        height: 250.0,
-                        child: Image.network(
-                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtWQS3bZpy9LIQuOa_HH_vsMburHACdxOMwDS4eEXcJ9bVJb73PiNyRzaJ34UyU7fz6v0&usqp=CAU"),
-                      ),
-                    ],
+          appBar: AppBar(
+              automaticallyImplyLeading: true,
+              title: Text('Créer un compte'),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context, false),
+              )
+              ),
+          body: new Container(
+            margin: const EdgeInsets.only(left: 8.0, right: 8.0),
+            child: new Column(
+              children: [
+                new TextField(
+                  controller: nameControler,
+                  decoration: InputDecoration(                                    //Inscrire son nom pour la création du compte
+                      hintText: "nom....",
+                      labelText: 'Veuillez saisir votre nom'),
+                ),
+                new TextField(
+                  controller: emailControler,
+                  decoration: InputDecoration(                                    //Inscrire son email pour la création du compte
+                      hintText: "courriel....",
+                      labelText: 'Veuillez saisir votre courriel'),
+                ),
+                new TextField(
+                  controller: passwordControler,
+                  decoration: InputDecoration(                                    //Inscrire son MP pour la création du compte
+                      hintText: "mot de passe....",
+                      labelText: 'Veuillez saisir votre mot de passe'),
+                ),
+                new RaisedButton(
+                  onPressed: () {
+                    TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold,
+                    );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: BorderSide(color: Colors.green, width: 3.0),
                   ),
-                );
-              }
-             
-              /*backgroundColor: Colors.green,
-                  child: Icon(Icons.add_to_home_screen),
-                );*/
-              /*} else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }*/
+                  /*  Post newPost = new Post(
+                        id: 0,                                                    //Si nous avions plus de temps, nous aurions pu le continuer 
+                        name: nameControler.text,                                 //pous le rendre fonctionnel.
+                        email: emailControler.text,
+                        password: passwordControler.text);
+                    Post p = await createPost(CREATE_POST_URL,
+                        name: newPost.toMap());
+                    
+*/
 
-              // By default, show a loading spinner.
-              return CircularProgressIndicator();
-            },
-          ),
-        ),
-      ),
+                  child: const Text("Create"),
+                )
+              ],
+            ),
+          )),
     );
   }
 }
-/*_makePostRequest() async {
-// set up POST request arguments
-  final url = Uri.parse('https://jsonplaceholder.typicode.com/posts');
-  Map<String, String> headers = {"Content-type": "application/json"};
-  String json = '{"name": '+'"'+name+'"'+', "email":'+'"'+ email+'"'+', "password":'+ password}';
-  // make POST request
-  Response response = await post(url, headers: headers, body: json);
-  // check the status code for the result
-  int statusCode = response.statusCode;
-  // this API passes back the id of the new item added to the body
-  String body = response.body;
-  // {
-  //   "title": "Hello",
-  //   "body": "body text",
-  //   "userId": 1,
-  //   "id": 101
-  // }
-}*/

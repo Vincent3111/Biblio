@@ -4,21 +4,16 @@ import 'package:easyqrapp/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:easyqrapp/user.dart';
-import 'package:qrscan/qrscan.dart';
-
+                                                                                  // Connection des Customers
 Future<Customer> fetchCustomer() async {
-  final response = await http.get("http://10.0.2.2:4000/customer/" '$email');
-
-  print(email);
+  final response = await http.get("http://10.0.2.2:4000/customer/" '$email');     //Cherche les customer par Email
 
   if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
+
     return Customer.fromJson(jsonDecode(response.body));
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load customer');
+
+    throw Exception('Failed to load customer');                                   //Si le Email est introuvable, une erreur s'affichera
   }
 }
 
@@ -64,20 +59,26 @@ class _customerConnectionState extends State<customerConnection> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Fetch Data',
+      title: 'Connection',
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
       home: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: true,
           title: Text('Connection'),
+          leading: IconButton(icon:Icon(Icons.arrow_back),
+            onPressed:() => Navigator.pop(context, false),
+          )
         ),
         body: Center(
           child: FutureBuilder<Customer>(
             future: futureCustomer,
             builder: (context, snapshot) {
-              if (password == snapshot.data.password) {
-                return Scaffold(
+              if (password == snapshot.data.password) {                           //Si le compte existe dans la base de donnée
+                return Scaffold(                                                  //Nous comparons le mot de passe (MP) que l'ustilisateur écrit, 
+                                                                                  //avec celui de la base de donnée et si les deux MP sont pareil, 
+                                                                                  //l'application t'apporte vers une page de connection réussi.
                   body: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -132,8 +133,10 @@ class _customerConnectionState extends State<customerConnection> {
                   ),
                 );
               }
-              if (password != snapshot.data.password) {
-                return Scaffold(
+              if (password != snapshot.data.password) {                           //Si le compte N'existe PAS dans la base de donnée
+                return Scaffold(                                                  //Nous comparons le mot de passe (MP) que l'ustilisateur écrit, 
+                                                                                  //avec celui de la base de donnée et si les deux MP NE sont PAS pareil, 
+                                                                                  //l'application t'apporte vers une page d'échec de connection.
                   body: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -162,7 +165,7 @@ class _customerConnectionState extends State<customerConnection> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Admin()),
+                                    builder: (context) => User()),
                               );
                             },
                             child: Center(
@@ -188,15 +191,8 @@ class _customerConnectionState extends State<customerConnection> {
                   ),
                 );
               }
-              /*backgroundColor: Colors.green,
-                  child: Icon(Icons.add_to_home_screen),
-                );*/
-              /*} else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }*/
 
-              // By default, show a loading spinner.
-              return CircularProgressIndicator();
+              return CircularProgressIndicator();                                 //Si aucune des deux conditions est prise, il y aura un cercle de loading
             },
           ),
         ),

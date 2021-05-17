@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:qrscan/qrscan.dart';
-
 
 class Historique extends StatefulWidget {
   @override
   _HistoriqueState createState() => _HistoriqueState();
 }
-
+                                                                                  // Affichage des livres
+                                                                                  //Le code n'est pas fonctionnel par manque de temps. 
+                                                                                  //Il aurait fallu prendre les livres de la classe ScanPage et 
+                                                                                  //ajouter les titres dans cette page lorsqu'ils ont été cherchés
 class _HistoriqueState extends State<Historique> {
   String historiqueResult = "Aucune Historique";
   @override

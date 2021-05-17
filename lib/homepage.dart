@@ -1,9 +1,8 @@
 import 'package:easyqrapp/historique.dart';
 import 'package:flutter/material.dart';
-import 'package:easyqrapp/customerConnection.dart';
 import 'package:easyqrapp/scan.dart';
 import 'package:easyqrapp/generate.dart';
-
+                                                                                  //Page principal de l'application.
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -24,7 +23,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
+            Container(                                                            //Ce container est composé d'un bouton qui le dirige vers la classe GeneratePage.
               height: 40.0,
               child: Material(
                 borderRadius: BorderRadius.circular(20.0),
@@ -33,11 +32,10 @@ class _HomePageState extends State<HomePage> {
                 elevation: 7.0,
                 child: GestureDetector(
                   onTap: () {
-                   Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GeneratePage()),
-                      );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => GeneratePage()),
+                    );
                   },
                   child: Center(
                     child: Text(
@@ -53,7 +51,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: 10.0),
-            Container(
+            Container(                                                            //Ce container est composé d'un bouton qui le dirige vers la classe ScanPage.
               height: 40.0,
               child: Material(
                 borderRadius: BorderRadius.circular(20.0),
@@ -62,11 +60,10 @@ class _HomePageState extends State<HomePage> {
                 elevation: 7.0,
                 child: GestureDetector(
                   onTap: () {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ScanPage()),
-                      );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ScanPage()),
+                    );
                   },
                   child: Center(
                     child: Text(
@@ -82,7 +79,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: 10.0),
-            Container(
+            Container(                                                            //Ce container est composé d'un bouton qui le dirige vers la classe Historique.
               height: 40.0,
               child: Material(
                 borderRadius: BorderRadius.circular(20.0),
@@ -91,11 +88,10 @@ class _HomePageState extends State<HomePage> {
                 elevation: 7.0,
                 child: GestureDetector(
                   onTap: () {
-                                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Historique()),
-                      );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Historique()),
+                    );
                   },
                   child: Center(
                     child: Text(

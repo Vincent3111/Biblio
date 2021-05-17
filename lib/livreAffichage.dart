@@ -1,23 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:easyqrapp/scan.dart';
-import 'package:qrscan/qrscan.dart';
 
+                                                                                  // Affichage des livres
 Future<Livre> fetchLivre() async {
-  final response = await http.get("http://10.0.2.2:3000/livre/" '$code_barre');
-
-  print(code_barre);
-  code_barre=null;
+  final response = await http.get("http://10.0.2.2:3000/livre/"
+      '$code_barre');                                                             //À l'aide du code barre (CB), il nous est
+                                                                                  //possible de parcourir la base de donée
+                                                                                  //des livres et d'afficher le conenu spécifique au CB inscrit.
+  code_barre = null;
   if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
     return Livre.fromJson(jsonDecode(response.body));
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
     throw Exception('Veuillez saisir un livre');
   }
 }
@@ -81,40 +77,51 @@ class _livreAffichageState extends State<livreAffichage> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Livre recherché'),
-          centerTitle: true,
-        ),
-        body: Center(
+            automaticallyImplyLeading: true,
+            title: Text('Livre Recherché'),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () => Navigator.pop(context, false),
+            )),
+        body: Container(
           child: FutureBuilder<Livre>(
+                                                                                  //Code de l'affichage des livres formatés.
             future: futureLivre,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Text(
-                        '\t'+'Titre: ' +
+                    '\t' +
+                        'Titre: ' +
                         snapshot.data.titre +
                         '\n' +
                         '\n' +
-                        '\t'+'Auteur: ' +
+                        '\t' +
+                        'Auteur: ' +
                         snapshot.data.auteur +
                         '\n' +
                         '\n' +
-                        '\t'+'Edition: ' +
+                        '\t' +
+                        'Edition: ' +
                         snapshot.data.edition +
                         '\n' +
                         '\n' +
-                        '\t'+'Pages: ' +
+                        '\t' +
+                        'Pages: ' +
                         snapshot.data.pages +
                         '\n' +
                         '\n' +
-                        '\t'+'Resumer: ' +
+                        '\t' +
+                        'Resumer: ' +
                         snapshot.data.resumer +
                         '\n' +
                         '\n' +
-                        '\t'+'Langue: ' +
+                        '\t' +
+                        'Langue: ' +
                         snapshot.data.langue +
                         '\n' +
                         '\n' +
-                        '\t'+'Code barre: ' +
+                        '\t' +
+                        'Code barre: ' +
                         snapshot.data.codebarre,
                     style: TextStyle(
                       fontSize: 20.0,
@@ -123,70 +130,8 @@ class _livreAffichageState extends State<livreAffichage> {
                 return Text("${snapshot.error}");
               }
 
-              // By default, show a loading spinner.
               return CircularProgressIndicator();
             },
-
-            /* body: Center(
-          //Column(children: <Widget>[
-          child: FutureBuilder<Livre>(
-            future: futureLivre,
-            builder: (context, snapshot) {
-              /*String cb= snapshot.data.codebarre;
-              String t= snapshot.data.titre;
-              String a= snapshot.data.auteur;
-              String e= snapshot.data.edition;
-              String p= snapshot.data.pages;
-              String r= snapshot.data.resumer;
-              String l= snapshot.data.langue;*/
-
-              if (snapshot.hasData) {
-                return Text(snapshot.data.titre);
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              // By default, show a loading spinner.
-              return CircularProgressIndicator();
-            },
-          ),*/
-
-            /*Container(
-            padding: EdgeInsets.all(30.0),
-            color: Colors.green,
-            child: Text('12'),             
-          ),
-          Container(
-            padding: EdgeInsets.all(30.0),
-            color: Colors.green,
-            child: Text('yo5555555o'),            
-          ),
-          Container(
-            padding: EdgeInsets.all(30.0),
-            color: Colors.green,
-            child: Text('Vincent'),            
-          ),
-          Container(
-            padding: EdgeInsets.all(30.0),
-            color: Colors.green,
-            child: Text('oyoy0000'),            
-          ),          
-          Container(
-            padding: EdgeInsets.all(30.0),
-            color: Colors.green,
-            child: Text('270'),            
-          ),          
-          Container(
-            padding: EdgeInsets.all(30.0),
-            color: Colors.green,
-            child: Text('un yoyo fait du'),            
-          ),
-          Container(
-            padding: EdgeInsets.all(30.0),
-            color: Colors.green,
-            child: Text('xy'),            
-            ),
-          ]
-        ),*/
           ),
         ),
       ),
